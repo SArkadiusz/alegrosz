@@ -3,6 +3,6 @@ from django.shortcuts import render
 
 
 def home(request):
-    return HttpResponse('<h1>Alegrosz</h1>')
+    return render(request, 'home/home.html')
 
 # Create your views here.
