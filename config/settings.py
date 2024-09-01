@@ -10,7 +10,16 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
+import os
 from pathlib import Path
+import dj_database_url
+from dotenv import load_dotenv
+
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+load_dotenv()
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,10 +29,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-9#ieg%g*0y@5xpph)$*#sr=ufx#85kf*5#+@p0l=t-ww=+9$ik'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = int(os.getenv('DEBUG', default=0))
 
 ALLOWED_HOSTS = []
 
@@ -37,6 +46,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # 3rd party apps
+
+    # local apps
+    'home.apps.HomeConfig',
+
 ]
 
 MIDDLEWARE = [
@@ -79,6 +94,15 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+DATABASE_URL = os.environ.get('DB_CONNECTION_STRING')
+
+db_from_env = dj_database_url.config(
+    default=DATABASE_URL,
+    conn_max_age=500,
+    ssl_require=False
+)
+
+DATABASES['default'].update(db_from_env)
 
 
 # Password validation
