@@ -1,4 +1,13 @@
-body {
-    background-color: lightgreen;
+/*body {*/
+/*    background-color: lightgreen;*/
 
+/*}*/
+
+.logo {
+    width: 100px;
+    height: 40px;
+}
+
+.img{
+    width: 100%;
 }
